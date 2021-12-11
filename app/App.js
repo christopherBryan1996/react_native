@@ -9,15 +9,13 @@
 import React from 'react';
 import type {Node} from 'react';
 import {View,Text,StyleSheet} from 'react-native';
-
+import CreateUser from './app/views/createUser/index'
 
 
 const App: () => Node = () => {
   return (
-    <View>
-      <Text>hola</Text>
-    </View>
-  );
+    <CreateUser/>
+  )
 };
 
 const styles = StyleSheet.create({
