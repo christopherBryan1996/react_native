@@ -9,7 +9,7 @@
 import React from 'react';
 import type {Node} from 'react';
 import {View,Text,StyleSheet} from 'react-native';
-import CreateUser from './app/views/createUser/index'
+import CreateUser from './app/components/createUser/index'
 
 
 const App: () => Node = () => {
