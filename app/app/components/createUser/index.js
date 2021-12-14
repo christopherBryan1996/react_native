@@ -2,7 +2,7 @@ import React ,{useState}from "react";
 import {View,StyleSheet,Text,TextInput, TouchableOpacity} from 'react-native'
 import axios from 'axios'
 
-function CreateUser (){
+function CreateUser (props){
     const [email, setemail] = useState('')
     const [password, setpassword] = useState('')
     const [displayName, setdisplayName] = useState('')
@@ -20,7 +20,7 @@ function CreateUser (){
         setdisplayName('')
         setphoneNumber('')
     }
-    
+    console.log(props.route.params.id)
     return (
         <View style={styles.conteiner}>
             <Text style={styles.title}>Name:</Text>

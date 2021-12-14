@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import {View,Text,StyleSheet,TextInput,TouchableOpacity,Image} from 'react-native'
 import axios from "axios";
 
-function Login(){
+function Login(props){
     const [email, setemail] = useState('')
     const [password, setpassword] = useState('')
     const login ={
@@ -11,8 +11,9 @@ function Login(){
     }
    async function onpresslogin(){
        try {
-           const respuesta=await (await axios.post('http://10.0.2.2:3000/api/auth',login)).data
-           console.log(respuesta.jwtoken)
+           //const respuesta=await (await axios.post('http://10.0.2.2:3000/api/auth',login)).data
+           //console.log(respuesta.jwtoken)
+           props.navigation.navigate('CreateUser', {id:'1'})
            setemail('')
            setpassword('')
        } catch (error) {
