@@ -16,7 +16,7 @@ router.post('/',async(req,res)=>{
         where:{email:email}
     })
     if(existencia.length>0){
-        res.json({msg:'Ya exixte el usuario'})
+        res.status(400).json({msg:'Ya exixte el usuario'})
     }else{
         try {
             await user.create({

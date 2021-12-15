@@ -1,28 +1,33 @@
 import React,{useState} from "react";
 import {View,Text,StyleSheet,TextInput,TouchableOpacity,Image} from 'react-native'
 import axios from "axios";
+import Loading from "../loading";
+import {loginError} from '../alerts'
 
 function Login(props){
     const [email, setemail] = useState('')
     const [password, setpassword] = useState('')
+    const [loading, setloading] = useState(false)
     const login ={
         password,
         email
     }
    async function onpresslogin(){
        try {
-           //const respuesta=await (await axios.post('http://10.0.2.2:3000/api/auth',login)).data
-           //console.log(respuesta.jwtoken)
-           props.navigation.navigate('CreateUser', {id:'1'})
+           const respuesta=await (await axios.post('http://10.0.2.2:3000/api/auth',login)).data
+           console.log(respuesta.jwtoken)
            setemail('')
            setpassword('')
+           props.navigation.navigate('Post')
        } catch (error) {
-            console.log('no')
+            return loginError()
        }
         
     }
     
+    
     return (
+        <Loading loadig={loading}>
         <View style={styles.conteiner}>
             <View style={styles.subconteier}>
                 <Image 
@@ -50,8 +55,12 @@ function Login(props){
                 >
                     <Text style={styles.title}>Login</Text>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={()=>props.navigation.navigate('CreateUser')}>
+                    <Text style={{color:'white', fontWeight: 'bold', marginTop:10}}>Create User</Text>
+                </TouchableOpacity>
             </View>
         </View>
+        </Loading>
     )
 }
 const styles = StyleSheet.create({
