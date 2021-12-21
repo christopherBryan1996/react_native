@@ -7,7 +7,7 @@ import Login from '../components/login'
 import back from '../icons/caret-izquierda.png'
 const Stack = createStackNavigator()
 const getbutton=({navigation})=>{
-    return <TouchableOpacity 
+    return <TouchableOpacity  
         style ={{flexDirection:'row'}}
         onPress={()=> navigation.goBack()}
     >

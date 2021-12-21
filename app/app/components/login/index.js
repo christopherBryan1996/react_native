@@ -1,31 +1,55 @@
-import React,{useState} from "react";
+import React,{useState, useEffect} from "react";
 import {View,Text,StyleSheet,TextInput,TouchableOpacity,Image} from 'react-native'
 import axios from "axios";
 import Loading from "../loading";
-import {loginError} from '../alerts'
+import AsyncStorage  from '@react-native-async-storage/async-storage';
 
-function Login(props){
+function Login(props){ 
     const [email, setemail] = useState('')
     const [password, setpassword] = useState('')
-    const [loading, setloading] = useState(false)
+    const [status, setstatus] = useState(false)
+    const [loading, setloading] = useState(true)
     const login ={
         password,
         email
     }
-   async function onpresslogin(){
+    
+    useEffect(() => {
+        statusUser()
+    }, [])
+    
+    async function statusUser(){
+        try {
+            setloading(true)
+            const value= await AsyncStorage.getItem('@token')
+            const respuesta =await (await axios.post('http://10.0.2.2:3000/api/user/status',{token:value})).data
+            setstatus(respuesta.status)
+            if(!status){
+                setloading(false)
+            }
+            //await AsyncStorage.clear();
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    async function onpresslogin(){
        try {
            const respuesta=await (await axios.post('http://10.0.2.2:3000/api/auth',login)).data
-           console.log(respuesta.jwtoken)
+           await AsyncStorage.setItem('@token',respuesta.jwtoken)
+           //setjwt(respuesta.jwtoken)
            setemail('')
            setpassword('')
            props.navigation.navigate('Post')
        } catch (error) {
-            return loginError()
+            return console.log(error)
        }
         
     }
     
-    
+    if(status){
+        props.navigation.navigate('Post')
+        //setloading(false)
+    }
     return (
         <Loading loadig={loading}>
         <View style={styles.conteiner}>
