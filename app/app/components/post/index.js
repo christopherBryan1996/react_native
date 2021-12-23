@@ -19,23 +19,27 @@ function Post(){
     useEffect(() => {
         cargaData()
         const end =counter+5
-        console.log('entre')
+        //console.log('entre') 
         const slice=dta.slice(counter,end)
         setarr(slice)
         setcounter(end)
     }, [])
     async function cargaData(){
-        const arrda=await axios.get('https://rickandmortyapi.com/api/character')
-        console.log('soy',arrda)
-        setdta(arrda.data.results)
+        try {
+            const arrda=await axios.get('https://rickandmortyapi.com/api/character')
+            //console.log('soy',arrda)
+            setdta(arrda.data.results)
+        } catch (error) {
+            console.log(error)
+        }
     }
-    console.log('soy data',dta)
+    //console.log('soy data',dta)
     return(
         <View style={styles.conteiner}>
             <FlatList
                 data={dta}
                 renderItem={({item,index})=>{
-                    {console.log(item.image)}
+                    //{console.log(item.image)}
                     return (
                         <View>
                         <Text style={styles.text}>{item.name}</Text>

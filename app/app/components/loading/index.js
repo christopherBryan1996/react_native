@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
 
 function Loading({loadig, children}){
     
-    if(loadig){console.log('dentro')
+    if(loadig){//console.log('dentro')
         return (
             <View style={styles.conteiner}>
                 <ActivityIndicator size='large' color='red'/>
