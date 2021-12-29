@@ -1,8 +1,12 @@
 import React,{useState} from "react";
 import {View, StyleSheet, Text,TouchableOpacity, Image} from 'react-native'
 import {launchCamera, } from 'react-native-image-picker'
+import Cryptor from 'crypto-js'
+import axios from "axios";
+
 
 function User(){
+    
     const [imagen, setimagen] = useState('https://i.makeagif.com/media/11-05-2015/7-wFhQ.gif')
     function imageinput(){
         const options={
@@ -13,11 +17,32 @@ function User(){
             includeBase64:true
         }
         launchCamera(options, response=>{
-            const valor= response.assets[0].uri
+            const {uri,type,fileName}= response.assets[0]
             //console.log(valor.map(va=>{const {}=va}))
             //console.log(response)
-            console.log(valor)
-            setimagen(valor)
+            //console.log(uri,type,fileName)
+            const photo={uri,type,name:fileName}
+            const ts= Math.round((new Date()).getTime()/1000)
+            const apiKey ='8616319322258510'
+            const apiSecret='Q48kDZolqWrddPKNNZxxiHchtUMl'
+            const hash=`timestamp=${ts}${apiSecret}`
+            const signature= Cryptor.SHA1(hash).toString();
+            const url='https://api.cloudinary.com/v1_1/durx2k5cc4/image/upload'
+
+            const formData = new FormData()
+            formData.append('file',photo)
+            formData.append('timestamp',ts)
+            formData.append('api_key',apiKey)
+            formData.append('signature',signature)
+            
+            console.log(formData)
+
+            axios.post(url,formData)
+            //.then(res=>res.json())
+            .then(res=>console.log(res))
+            .catch(err=>console.log(err))
+
+            setimagen(uri)
         })
         //nos ayuda a usar la camara 
         //ImagePicker.launchCamera();
